@@ -1,51 +1,22 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from './Navbar'
+import axios from 'axios'
 
 const ViewFriends = () => {
-    const [data,changeData] = useState(
-        [
-            {
-                "_id": "6665dd357f96fb262b8dd5a6",
-                "name": "Ramesh",
-                "friendName": "Tovino",
-                "friendNickName": "TT",
-                "DescribeYourFriend": "Test desc",
-                "__v": 0
-            },
-            {
-                "_id": "666694bf2a16f0afd5e07bba",
-                "name": "nithya",
-                "friendName": "kj",
-                "friendNickName": "lhp",
-                "DescribeYourFriend": "kihh;[j",
-                "__v": 0
-            },
-            {
-                "_id": "6666950b2a16f0afd5e07bbe",
-                "name": "",
-                "friendName": "",
-                "friendNickName": "",
-                "DescribeYourFriend": "",
-                "__v": 0
-            },
-            {
-                "_id": "666695dd2a16f0afd5e07bc7",
-                "name": "",
-                "friendName": "",
-                "friendNickName": "",
-                "DescribeYourFriend": "",
-                "__v": 0
-            },
-            {
-                "_id": "666698082a16f0afd5e07bce",
-                "name": "",
-                "friendName": "",
-                "friendNickName": "",
-                "DescribeYourFriend": "",
-                "__v": 0
+    const [data,changeData] = useState([])
+    const fetchData = ()=>{
+        axios.get("https://friendsapi-re5a.onrender.com/view").then(
+            (response)=>{
+                changeData(response.data)
+                console.log(response.data)
             }
-        ]
-    )
+        ).catch(
+            (error)=>{
+                alert(error.message)
+            }
+        ).finally()
+    }
+    useEffect(()=>{fetchData()},[])
     return (
         <div>
             <Navbar />
@@ -55,6 +26,7 @@ const ViewFriends = () => {
                         <table class="table">
                             <thead>
                                 <tr>
+                                    <th scope="col">Index</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">FriendName</th>
                                     <th scope="col">FriendNickName</th>
@@ -66,7 +38,8 @@ const ViewFriends = () => {
                                     data.map(
                                         (value,index)=>{
                                             return <tr>
-                                            <th scope="row">{value.name}</th>
+                                            <th scope="row">{index}</th>
+                                            <th>{value.name}</th>
                                             <td>{value.friendName}</td>
                                             <td>{value.friendNickName}</td>
                                             <td>{value.DescribeYourFriend}</td>
